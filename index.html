@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You Won a Free Pitch — Von Peach</title>
+<style>
+  :root{
+    --olive-deep:#3D3D01;   /* darker than #5B5B02 for bg depth */
+    --olive:#5B5B02;        /* core dark */
+    --gold:#999900;         /* primary accent */
+    --gold-soft:#CCCC69;    /* muted */
+    --cream:#FEFDCB;        /* pale yellow */
+    --ink:#3D3D01;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:Helvetica,"Helvetica Neue",Arial,sans-serif;
+    background:radial-gradient(120% 120% at 50% 0%, var(--olive) 0%, var(--olive-deep) 72%);
+    color:var(--cream);
+    min-height:100%;
+    display:flex;
+    justify-content:center;
+    padding:28px 20px 48px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{width:100%;max-width:440px;display:flex;flex-direction:column;gap:22px}
+
+  /* header */
+  .brand{display:flex;align-items:center;justify-content:space-between;font-size:13px;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+  .brand .peach{font-weight:700}
+  .card-no{font-size:12px;opacity:.7;letter-spacing:.12em}
+
+  /* scratch panel */
+  .stage{position:relative;border-radius:22px;overflow:hidden;background:var(--cream);box-shadow:0 24px 60px rgba(0,0,0,.35);min-height:340px;display:flex;align-items:center;justify-content:center}
+  .prize{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:34px 26px;color:var(--ink)}
+  .prize .kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px}
+  .prize h1{font-size:34px;line-height:1.02;letter-spacing:-.02em;color:var(--olive)}
+  .prize h1 em{font-style:normal;color:var(--gold)}
+  .prize p{margin-top:14px;font-size:15px;line-height:1.45;color:#6b6b2a;max-width:300px}
+  .peachmark{font-size:46px;margin-bottom:6px}
+  canvas{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
+  .scratch-hint{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:var(--cream);font-size:13px;letter-spacing:.14em;text-transform:uppercase;pointer-events:none;animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+
+  /* value blocks */
+  .reveal-extra{opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s ease;display:flex;flex-direction:column;gap:14px}
+  .reveal-extra.show{opacity:1;transform:none}
+  .offer{background:rgba(254,253,203,.06);border:1px solid rgba(204,204,105,.22);border-radius:16px;padding:18px}
+  .offer h3{font-size:15px;letter-spacing:.02em;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+  .offer p{font-size:13.5px;line-height:1.5;opacity:.82}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--gold-soft);flex:none}
+
+  /* CTA */
+  .cta{display:block;text-align:center;background:var(--gold);color:#fffce0;text-decoration:none;font-weight:700;font-size:17px;letter-spacing:.01em;padding:18px;border-radius:14px;box-shadow:0 12px 30px rgba(153,153,0,.45);transition:transform .15s ease}
+  .cta:active{transform:scale(.98)}
+  .cta-sub{text-align:center;font-size:12.5px;opacity:.7;margin-top:-6px}
+  .secondary{text-align:center;font-size:13px}
+  .secondary a{color:var(--gold-soft)}
+
+  .foot{text-align:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.5;margin-top:6px}
+
+  /* confetti */
+  #confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+</style>
+</head>
+<body>
+  <canvas id="confetti"></canvas>
+  <div class="wrap">
+    <div class="brand">
+      <span class="peach">VON&nbsp;PEACH</span>
+      <span class="card-no" id="cardNo">CARD&nbsp;#0000</span>
+    </div>
+
+    <div class="stage">
+      <div class="prize">
+        <div class="peachmark">🍑</div>
+        <div class="kicker">You scratched a winner</div>
+        <h1>One <em>free pitch</em><br>teardown.</h1>
+        <p>45 minutes with us, pulling apart your real pitch and rebuilding the moment that wins the room.</p>
+      </div>
+      <canvas id="scratch"></canvas>
+      <div class="scratch-hint" id="hint">Scratch to reveal</div>
+    </div>
+
+    <div class="reveal-extra" id="extra">
+      <div class="offer">
+        <h3><span class="dot"></span> Before you even book</h3>
+        <p>Take the 60-second Pitch Scorecard and see where your deck is leaking deals. You'll get your score instantly — bring it to the session and we'll fix the lowest number first.</p>
+      </div>
+      <div class="offer">
+        <h3><span class="dot"></span> What you walk away with</h3>
+        <p>A live teardown of one slide, your sharpest opening line, and the single change that moves your win-rate most. No fluff, no pitch-about-pitching.</p>
+      </div>
+
+      <a class="cta" id="bookBtn" href="https://calendar.app.google/McNLhhtGbzNKUGer5">Claim my free pitch →</a>
+      <div class="cta-sub">One per card · redeemable for 30 days</div>
+      <div class="secondary">Rather see it first? <a href="https://www.vonpeach.com/our-work">Watch a 2-min teardown</a></div>
+    </div>
+
+    <div class="foot">Pitch to Win · Von Peach GmbH</div>
+  </div>
+
+<script>
+/* ---- unique-ish card number (replace with real codes at print time) ---- */
+(function(){
+  const p = new URLSearchParams(location.search);
+  let id = p.get('card');
+  if(!id){ id = String(Math.floor(1000 + Math.random()*8999)); }
+  document.getElementById('cardNo').textContent = 'CARD #' + id.padStart(4,'0');
+})();
+
+/* ---- scratch-to-reveal ---- */
+const stage = document.querySelector('.stage');
+const canvas = document.getElementById('scratch');
+const ctx = canvas.getContext('2d');
+const hint = document.getElementById('hint');
+const extra = document.getElementById('extra');
+let revealed = false;
+
+function size(){
+  const r = stage.getBoundingClientRect();
+  canvas.width = r.width; canvas.height = r.height;
+  // foil coating
+  const g = ctx.createLinearGradient(0,0,r.width,r.height);
+  g.addColorStop(0,'#999900'); g.addColorStop(.5,'#5B5B02'); g.addColorStop(1,'#999900');
+  ctx.globalCompositeOperation='source-over';
+  ctx.fillStyle=g; ctx.fillRect(0,0,r.width,r.height);
+  ctx.fillStyle='rgba(254,253,203,.92)';
+  ctx.font='bold 22px Helvetica, Arial';
+  ctx.textAlign='center';
+  ctx.fillText('🍑  S C R A T C H  🍑', r.width/2, r.height/2);
+  ctx.globalCompositeOperation='destination-out';
+}
+size();
+window.addEventListener('resize', ()=>{ if(!revealed) size(); });
+
+let drawing=false;
+function pos(e){
+  const r = canvas.getBoundingClientRect();
+  const t = e.touches ? e.touches[0] : e;
+  return {x:t.clientX-r.left, y:t.clientY-r.top};
+}
+function scratch(e){
+  if(!drawing) return;
+  const {x,y}=pos(e);
+  ctx.beginPath(); ctx.arc(x,y,26,0,Math.PI*2); ctx.fill();
+  hint.style.display='none';
+  checkClear();
+}
+function checkClear(){
+  if(revealed) return;
+  const d = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+  let clear=0; for(let i=3;i<d.length;i+=32){ if(d[i]===0) clear++; }
+  if(clear/(d.length/32) > 0.45){ finish(); }
+}
+function finish(){
+  revealed=true;
+  canvas.style.transition='opacity .5s ease';
+  canvas.style.opacity='0';
+  setTimeout(()=>canvas.remove(),520);
+  extra.classList.add('show');
+  burst();
+}
+canvas.addEventListener('mousedown',e=>{drawing=true;scratch(e)});
+canvas.addEventListener('mousemove',scratch);
+window.addEventListener('mouseup',()=>drawing=false);
+canvas.addEventListener('touchstart',e=>{drawing=true;scratch(e)},{passive:true});
+canvas.addEventListener('touchmove',e=>{scratch(e)},{passive:true});
+window.addEventListener('touchend',()=>drawing=false);
+
+/* ---- confetti burst ---- */
+const cc = document.getElementById('confetti');
+const cx = cc.getContext('2d');
+function fit(){ cc.width=innerWidth; cc.height=innerHeight; }
+fit(); window.addEventListener('resize',fit);
+let parts=[];
+function burst(){
+  const colors=['#999900','#CCCC69','#FEFDCB','#5B5B02'];
+  for(let i=0;i<140;i++){
+    parts.push({x:innerWidth/2,y:innerHeight*0.32,
+      vx:(Math.random()-.5)*9, vy:Math.random()*-11-3,
+      g:.28, s:Math.random()*7+4, c:colors[i%colors.length], r:Math.random()*6});
+  }
+  run();
+}
+function run(){
+  cx.clearRect(0,0,cc.width,cc.height);
+  parts.forEach(p=>{ p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.r+=.1;
+    cx.save(); cx.translate(p.x,p.y); cx.rotate(p.r);
+    cx.fillStyle=p.c; cx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6); cx.restore();
+  });
+  parts=parts.filter(p=>p.y<cc.height+30);
+  if(parts.length) requestAnimationFrame(run); else cx.clearRect(0,0,cc.width,cc.height);
+}
+</script>
+</body>
+</html>
