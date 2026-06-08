@@ -61,6 +61,19 @@
 
   .foot{text-align:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.5;margin-top:6px}
 
+  /* more-about pitch section */
+  .more{border-top:1px solid rgba(204,204,105,.18);margin-top:8px;padding-top:22px}
+  .more .eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-soft);opacity:.8;text-align:center;margin-bottom:6px}
+  .more .lede{text-align:center;font-size:16px;line-height:1.35;color:var(--cream);max-width:320px;margin:0 auto 18px}
+  .pillars{display:flex;flex-direction:column;gap:14px}
+  .pillar{display:flex;gap:12px;align-items:flex-start}
+  .pnum{flex:none;width:26px;height:26px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+  .pillar h5{font-size:14px;letter-spacing:.01em;color:var(--cream)}
+  .pillar p{font-size:13px;line-height:1.45;opacity:.78;margin-top:3px}
+  .framework{text-align:center;font-size:15px;font-weight:700;color:var(--gold);letter-spacing:.01em;margin:20px 0 14px}
+  .tags{display:flex;flex-wrap:wrap;justify-content:center;gap:7px}
+  .tags span{font-size:11px;letter-spacing:.03em;color:var(--gold-soft);border:1px solid rgba(204,204,105,.25);border-radius:20px;padding:4px 10px}
+
   /* confetti */
   #confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
 </style>
@@ -97,6 +110,38 @@
       <a class="cta" id="bookBtn" href="https://calendar.app.google/McNLhhtGbzNKUGer5">Claim my free pitch →</a>
       <div class="cta-sub">One per card · redeemable for 30 days</div>
       <div class="secondary">Rather see it first? <a href="https://www.vonpeach.com/our-work">Watch a 2-min teardown</a></div>
+
+      <div class="more">
+        <div class="eyebrow">What "Pitch to Win" is</div>
+        <p class="lede">Too many brilliant solutions get buried under weak pitches. We make sure yours doesn't just land — it wins.</p>
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pnum">1</div>
+            <div>
+              <h5>Prospect insights</h5>
+              <p>We dig into client needs, decision-makers and the hidden drivers behind a "yes" — so your pitch feels relevant and impossible to ignore.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pnum">2</div>
+            <div>
+              <h5>Story &amp; design</h5>
+              <p>A narrative that moves from problem to promise to proof, with visuals that cut through the noise and spark curiosity.</p>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pnum">3</div>
+            <div>
+              <h5>Rehearsal &amp; delivery</h5>
+              <p>We run dry-runs and sharpen presence, voice and timing — turning presenters into performers who own the room.</p>
+            </div>
+          </div>
+        </div>
+        <div class="framework">Tough brief. Smooth flow. Strong finish.</div>
+        <div class="tags">
+          <span>Narrative</span><span>Pitch deck design</span><span>Pitch script</span><span>Data visualisation</span><span>Infographics</span><span>One-pagers</span><span>Public speaking coaching</span><span>Rehearsal sessions</span>
+        </div>
+      </div>
     </div>
 
     <div class="foot">Pitch to Win · Von Peach GmbH</div>
@@ -145,7 +190,7 @@ function pos(e){
 function scratch(e){
   if(!drawing) return;
   const {x,y}=pos(e);
-  ctx.beginPath(); ctx.arc(x,y,26,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x,y,34,0,Math.PI*2); ctx.fill();
   hint.style.display='none';
   checkClear();
 }
@@ -153,7 +198,7 @@ function checkClear(){
   if(revealed) return;
   const d = ctx.getImageData(0,0,canvas.width,canvas.height).data;
   let clear=0; for(let i=3;i<d.length;i+=32){ if(d[i]===0) clear++; }
-  if(clear/(d.length/32) > 0.45){ finish(); }
+  if(clear/(d.length/32) > 0.38){ finish(); }
 }
 function finish(){
   revealed=true;
