@@ -60,6 +60,12 @@
   .secondary{text-align:center;font-size:13px}
   .secondary a{color:var(--gold-soft)}
 
+  /* inline calendar */
+  .booknote{text-align:center;font-size:15px;color:var(--cream);opacity:.92;letter-spacing:.01em}
+  .calwrap{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 18px 46px rgba(0,0,0,.32);min-height:560px;position:relative}
+  .calwrap iframe{display:block;width:100%;height:620px;border:0}
+  .calwrap .calload{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#6b6b2a;font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+
   .foot{text-align:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.5;margin-top:6px}
 
   /* more-about pitch section */
@@ -99,7 +105,12 @@
     </div>
 
     <div class="reveal-extra" id="extra">
-      <a class="cta" id="bookBtn" href="https://calendar.app.google/McNLhhtGbzNKUGer5">Claim my free pitch →</a>
+      <div class="booknote">Claim it — pick your time below 🍑</div>
+      <div class="calwrap">
+        <div class="calload">Loading your slots…</div>
+        <iframe id="cal" title="Book your free pitch with Von Peach" loading="lazy"
+          data-src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ299ahSk7oDYzIDxAxeF4jknjFvNzox9u2FINuWHM_gh_spw3SN0zYqjEIKhAHaxuqLTMBjw78j?gv=true"></iframe>
+      </div>
       <div class="cta-sub">One per card · redeemable for 30 days</div>
     </div>
 
@@ -165,6 +176,8 @@ function finish(){
   canvas.style.opacity='0';
   setTimeout(()=>canvas.remove(),520);
   extra.classList.add('show');
+  var cf=document.getElementById('cal');
+  if(cf && !cf.src){ cf.src=cf.dataset.src; cf.addEventListener('load',function(){ var l=document.querySelector('.calload'); if(l) l.style.display='none'; }); }
   burst();
 }
 canvas.addEventListener('mousedown',e=>{drawing=true;scratch(e)});
